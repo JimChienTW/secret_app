@@ -1,0 +1,197 @@
+/* ──────────────────────────────────────────────────────────────────────────
+   CSS Variables — change these to restyle the whole app
+   ────────────────────────────────────────────────────────────────────────── */
+:root {
+  --bg:          #0d0d1a;
+  --surface:     #12122a;
+  --border:      #1e1e4a;
+  --accent:      #228be6;
+  --text:        #c9d1d9;
+  --dim:         #555577;
+  --error:       #ff6b6b;
+  --warning:     #ffd43b;
+  --radius:      6px;
+  --font:        'Segoe UI', system-ui, sans-serif;
+}
+
+/* ── Reset ────────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body, #root {
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 14px;
+}
+
+/* ── Layout ───────────────────────────────────────────────────────────────── */
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Top bar */
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 8px 16px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.topbar h1 { font-size: 1.1rem; white-space: nowrap; }
+.session-label { color: var(--dim); font-size: 0.85rem; flex: 1; }
+.topbar-actions { display: flex; gap: 8px; }
+
+/* Content row */
+.content {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* Panels */
+.panel-left,
+.panel-right {
+  width: 200px;
+  min-width: 160px;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  overflow-y: auto;
+  padding: 8px;
+  flex-shrink: 0;
+}
+.panel-right {
+  border-right: none;
+  border-left: 1px solid var(--border);
+}
+
+.panel-section {
+  margin-bottom: 16px;
+}
+.panel-section h2 {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--dim);
+  margin-bottom: 6px;
+}
+
+/* Canvas area */
+.canvas-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  overflow: auto;
+  padding: 12px;
+  background: var(--bg);
+}
+
+.canvas-info {
+  display: flex;
+  gap: 16px;
+  font-size: 0.8rem;
+  color: var(--dim);
+  margin-bottom: 8px;
+  align-self: flex-start;
+}
+
+/* ── Buttons ──────────────────────────────────────────────────────────────── */
+button {
+  background: #1a1a38;
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 0.82rem;
+  transition: background 0.15s, border-color 0.15s;
+}
+button:hover:not(:disabled) { background: #252550; border-color: var(--accent); }
+button:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.action-btn {
+  display: block;
+  width: 100%;
+  margin-top: 4px;
+}
+
+/* Layer buttons */
+.layer-buttons { display: flex; flex-direction: column; gap: 4px; }
+.layer-btn {
+  border-left-width: 3px;
+  text-align: left;
+  padding: 4px 8px;
+}
+.layer-btn.active { background: #1e1e4a; }
+
+/* Tool buttons */
+.tool-buttons { display: flex; flex-direction: column; gap: 4px; margin-bottom: 4px; }
+.tool-btn.active { background: #252550; border-color: var(--accent); }
+
+/* Net selector */
+select {
+  width: 100%;
+  background: #1a1a38;
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 4px 6px;
+  font-size: 0.82rem;
+  margin-bottom: 4px;
+}
+.net-color-swatch {
+  height: 6px;
+  border-radius: 3px;
+  margin-top: 4px;
+}
+
+/* DRC */
+.drc-score {
+  margin-top: 6px;
+  font-size: 0.85rem;
+  color: var(--accent);
+  font-weight: bold;
+}
+.violation-item {
+  background: #14142a;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 6px 8px;
+  margin-bottom: 6px;
+  font-size: 0.78rem;
+}
+.violation-item p { color: var(--dim); margin-top: 2px; }
+
+/* Sessions */
+.session-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 5px 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 5px;
+  font-size: 0.78rem;
+}
+.session-item small { color: var(--dim); }
+
+.dim { color: var(--dim); font-style: italic; font-size: 0.8rem; }
+
+/* Error banner */
+.error-banner {
+  background: #3a1020;
+  border: 1px solid var(--error);
+  color: var(--error);
+  border-radius: var(--radius);
+  padding: 6px 12px;
+  font-size: 0.82rem;
+  margin: 8px 0;
+  align-self: flex-start;
+}
