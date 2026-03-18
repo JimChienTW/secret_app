@@ -1,2 +1,11 @@
+# ── Legacy Flask backend (app.py) ────────────────────────────────────────────
 flask>=2.3.0
 flask-cors>=4.0.0
+
+# ── FastAPI backend (main.py) ────────────────────────────────────────────────
+fastapi>=0.110.0
+uvicorn[standard]>=0.29.0
+pydantic>=2.6.0
+
+# ── MongoDB async driver ─────────────────────────────────────────────────────
+motor>=3.3.0
