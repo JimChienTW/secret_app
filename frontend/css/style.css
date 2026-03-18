@@ -1,0 +1,352 @@
+/*
+ * style.css — Visual theme for the 3D IC Layout Tool
+ * ====================================================
+ * CSS Custom Properties (variables) are defined at the very top under :root.
+ * Change those variables to retheme the whole app at once, without hunting
+ * through the rest of the file.
+ *
+ * Structure
+ * ---------
+ *  1. CSS variables (colours & sizes)
+ *  2. Reset / base
+ *  3. Top bar
+ *  4. Main layout (flex container)
+ *  5. Left & right panels
+ *  6. Layer buttons
+ *  7. Net selector
+ *  8. Tool & action buttons
+ *  9. DRC score & violation list
+ * 10. Canvas area
+ * 11. Sessions list
+ * 12. Scrollbars
+ */
+
+/* ── 1. CSS variables — EDIT THESE to retheme the app ── */
+:root {
+  /* Backgrounds */
+  --bg-app:         #0d0d1a;   /* page background */
+  --bg-panel:       #12122a;   /* left/right panel background */
+  --bg-section:     #1a1a38;   /* card / section background */
+  --bg-hover:       #22224e;   /* hover highlight on buttons */
+
+  /* Borders */
+  --border:         #2a2a55;
+
+  /* Text */
+  --text:           #ccd6f6;   /* primary text */
+  --text-dim:       #6677aa;   /* secondary / muted text */
+
+  /* Accent (used for active buttons, focus rings) */
+  --accent:         #7c3aed;
+  --accent-bg:      rgba(124, 58, 237, 0.15);
+
+  /* Status colours */
+  --ok:             #22c55e;
+  --warn:           #f59e0b;
+  --danger:         #ef4444;
+
+  /* Layout dimensions */
+  --topbar-height:  52px;
+  --panel-width:    210px;
+
+  /* Fonts */
+  --font:           'Segoe UI', system-ui, sans-serif;
+  --mono:           'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+}
+
+/* ── 2. Reset / base ── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font);
+  background:  var(--bg-app);
+  color:       var(--text);
+  height:      100vh;
+  display:     flex;
+  flex-direction: column;
+  overflow:    hidden;
+}
+
+/* ── 3. Top bar ── */
+#topbar {
+  height:      var(--topbar-height);
+  background:  var(--bg-panel);
+  border-bottom: 1px solid var(--border);
+  display:     flex;
+  align-items: center;
+  padding:     0 16px;
+  gap:         14px;
+  flex-shrink: 0;
+}
+
+#topbar h1 {
+  font-size:      15px;
+  font-weight:    700;
+  letter-spacing: 0.4px;
+  white-space:    nowrap;
+}
+
+#session-label {
+  font-size:     11px;
+  color:         var(--text-dim);
+  font-family:   var(--mono);
+  flex:          1;
+  overflow:      hidden;
+  text-overflow: ellipsis;
+  white-space:   nowrap;
+}
+
+#topbar-actions {
+  display: flex;
+  gap:     7px;
+}
+
+#topbar-actions button {
+  padding:       5px 11px;
+  font-size:     12px;
+  border-radius: 5px;
+  border:        1px solid var(--border);
+  background:    var(--bg-section);
+  color:         var(--text);
+  cursor:        pointer;
+  transition:    background 0.14s;
+}
+#topbar-actions button:hover { background: var(--bg-hover); }
+
+/* ── 4. Main layout ── */
+#app {
+  display:  flex;
+  flex:     1;
+  overflow: hidden;
+}
+
+/* ── 5. Left & right panels ── */
+aside {
+  width:      var(--panel-width);
+  background: var(--bg-panel);
+  overflow-y: auto;
+  flex-shrink: 0;
+}
+#panel-left  { border-right: 1px solid var(--border); }
+#panel-right { border-left:  1px solid var(--border); }
+
+.panel-section {
+  padding:       11px 12px;
+  border-bottom: 1px solid var(--border);
+}
+.panel-section h2 {
+  font-size:      10px;
+  font-weight:    700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color:          var(--text-dim);
+  margin-bottom:  8px;
+}
+
+/* ── 6. Layer buttons ── */
+#layer-buttons {
+  display:        flex;
+  flex-direction: column;
+  gap:            4px;
+}
+
+.layer-btn {
+  display:        flex;
+  align-items:    center;
+  gap:            8px;
+  padding:        7px 9px;
+  border-radius:  5px;
+  border:         1px solid transparent;
+  background:     var(--bg-section);
+  color:          var(--text);
+  cursor:         pointer;
+  font-size:      13px;
+  text-align:     left;
+  transition:     background 0.14s, border-color 0.14s;
+}
+.layer-btn:hover  { background: var(--bg-hover); }
+.layer-btn.active { border-color: var(--accent); background: var(--accent-bg); }
+
+.layer-swatch {
+  width:        10px;
+  height:       10px;
+  border-radius: 2px;
+  flex-shrink:  0;
+}
+.layer-dir {
+  font-size:   9px;
+  color:       var(--text-dim);
+  margin-left: auto;
+}
+
+/* ── 7. Net selector ── */
+#net-select {
+  width:         100%;
+  padding:       6px 8px;
+  border-radius: 5px;
+  border:        1px solid var(--border);
+  background:    var(--bg-section);
+  color:         var(--text);
+  font-size:     13px;
+  cursor:        pointer;
+  margin-bottom: 7px;
+  outline:       none;
+}
+#net-select:focus { border-color: var(--accent); }
+
+#net-color-swatch {
+  height:        4px;
+  border-radius: 2px;
+  background:    #ffffff;
+  transition:    background 0.2s;
+}
+
+/* ── 8. Tool & action buttons ── */
+#tool-buttons {
+  display:        flex;
+  flex-direction: column;
+  gap:            4px;
+  margin-bottom:  8px;
+}
+
+.tool-btn {
+  padding:        7px 9px;
+  border-radius:  5px;
+  border:         1px solid transparent;
+  background:     var(--bg-section);
+  color:          var(--text);
+  cursor:         pointer;
+  font-size:      13px;
+  text-align:     left;
+  transition:     background 0.14s, border-color 0.14s;
+}
+.tool-btn:hover  { background: var(--bg-hover); }
+.tool-btn.active { border-color: var(--accent); background: var(--accent-bg); }
+
+.action-btn {
+  display:        block;
+  width:          100%;
+  padding:        7px 9px;
+  margin-top:     4px;
+  border-radius:  5px;
+  border:         1px solid var(--border);
+  background:     var(--bg-section);
+  color:          var(--text);
+  cursor:         pointer;
+  font-size:      12px;
+  text-align:     left;
+  transition:     background 0.14s;
+}
+.action-btn:hover    { background: var(--bg-hover); }
+.action-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* ── 9. DRC score & violations ── */
+#drc-score {
+  margin-top:  9px;
+  font-size:   24px;
+  font-weight: 700;
+  text-align:  center;
+  font-family: var(--mono);
+  transition:  color 0.3s;
+}
+#drc-score.score-good { color: var(--ok);     }
+#drc-score.score-ok   { color: var(--warn);   }
+#drc-score.score-bad  { color: var(--danger); }
+
+#drc-violations {
+  font-size:  11px;
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.violation-item {
+  padding:     4px 7px;
+  margin-bottom: 4px;
+  border-radius: 4px;
+  border-left: 3px solid var(--danger);
+  background:  rgba(239,68,68,0.08);
+  font-size:   10px;
+  line-height: 1.5;
+}
+.violation-item.warning {
+  border-color: var(--warn);
+  background:   rgba(245,158,11,0.08);
+}
+.violation-rule {
+  font-weight: 700;
+  color:       var(--text);
+  font-family: var(--mono);
+}
+.violation-sev {
+  font-size: 9px;
+  color:     var(--text-dim);
+  margin-left: 4px;
+}
+
+/* ── 10. Canvas area ── */
+#canvas-wrap {
+  flex:            1;
+  display:         flex;
+  flex-direction:  column;
+  align-items:     center;
+  overflow:        auto;
+  padding:         14px;
+  background:      var(--bg-app);
+}
+
+#canvas-info {
+  display:         flex;
+  flex-wrap:       wrap;
+  gap:             14px;
+  margin-bottom:   8px;
+  font-size:       11px;
+  color:           var(--text-dim);
+  font-family:     var(--mono);
+  justify-content: center;
+}
+#canvas-info span { white-space: nowrap; }
+
+#main-canvas {
+  border:        1px solid var(--border);
+  border-radius: 5px;
+  cursor:        crosshair;
+  display:       block;
+  max-width:     100%;
+}
+
+/* Cursor changes per active tool */
+#main-canvas.tool-wire   { cursor: crosshair;  }
+#main-canvas.tool-via    { cursor: cell;       }
+#main-canvas.tool-delete { cursor: not-allowed;}
+
+/* ── 11. Sessions list ── */
+#sessions-list {
+  font-size:  11px;
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+.session-item {
+  padding:       4px 7px;
+  margin-bottom: 3px;
+  border-radius: 4px;
+  background:    var(--bg-section);
+  transition:    background 0.13s;
+}
+.session-item:hover { background: var(--bg-hover); }
+
+.session-id    { font-family: var(--mono); font-size: 9px; color: var(--text-dim); }
+.session-score { float: right; font-weight: 700; }
+
+/* Generic helper classes referenced from JS */
+.dim { color: var(--text-dim); font-size: 11px; }
+.ok  { color: var(--ok);       font-size: 11px; }
+
+/* ── 12. Scrollbars (Chromium / WebKit) ── */
+::-webkit-scrollbar       { width: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
